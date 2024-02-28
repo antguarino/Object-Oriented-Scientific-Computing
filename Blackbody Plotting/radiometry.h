@@ -12,7 +12,7 @@
 #ifndef Radiometry_H
 #define Radiometry_H
 
-//Include Blackbody Header File
+// Include Blackbody Header File
 #include "Blackbody.h"
 
 #endif

@@ -42,29 +42,43 @@ int main() {
 
   cout << endl;
 
+  // Set up variables to create wavelength vector for loops
+  int upper_limit = 14;
+  int lower_limit = 8;
+  double range = upper_limit - lower_limit;
+  int amount_of_values = 12;
+  double delta_x = range / amount_of_values;
+
   // Vector of Wavelengths in Meters
-  vector<double> wavelength_vector = {
-      8E-6,    8.5E-6, 9E-6,    9.5E-6, 1E-5,    1.05E-5, 1.1E-5,
-      1.15E-5, 1.2E-5, 1.25E-5, 1.3E-5, 1.35E-5, 1.4E-5};
+  vector<double> wavelength_vector = {};
+  wavelength_vector.reserve(amount_of_values);
+  for (int i = 0; i <= amount_of_values; i++) {
+    wavelength_vector.push_back((lower_limit + i * delta_x) / 1000000);
+  };
 
   // Vector of Wavelengths in Microns
-  vector<double> wavelength_vector_microns = {
-      8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14};
+  vector<double> wavelength_vector_microns = {};
+  wavelength_vector_microns.reserve(amount_of_values);
+  for (int i = 0; i <= amount_of_values; i++) {
+    wavelength_vector_microns.push_back((lower_limit + i * delta_x));
+  };
 
   cout << "Wavelength [micron], Exitance [W/m^2/micron]" << endl;
+     auto Exitances = bb.SpectralRadiantExitance(wavelength_vector);
   for (int i = 0; i < wavelength_vector.size(); i++) {
     cout << wavelength_vector[i] * 1000000 << ", "
-         << bb.SpectralRadiantExitance(wavelength_vector)[i] << endl;
+         << Exitances[i] << endl;
   }
   cout << endl;
   cout << "Wavelength [micron], Radiance [W/m^2/sr/micron]" << endl;
+  auto Radiances = bb.SpectralRadiance(wavelength_vector);
   for (int i = 0; i < wavelength_vector.size(); i++) {
     cout << wavelength_vector[i] * 1000000 << ", "
-         << bb.SpectralRadiance(wavelength_vector)[i] << endl;
+         << Radiances[i] << endl;
   }
 
   matplot::plot(wavelength_vector_microns,
-                bb.SpectralRadiantExitance(wavelength_vector))
+                Exitances)
       ->color("b")
       .line_width(2);
   matplot::xlabel("Wavelength [microns]");
@@ -73,7 +87,7 @@ int main() {
   matplot::save("SpectralRadiantExitance.eps");
 
   matplot::plot(wavelength_vector_microns,
-                bb.SpectralRadiance(wavelength_vector))
+                Radiances)
       ->color("b")
       .line_width(2);
   matplot::xlabel("Wavelength [microns]");

@@ -54,13 +54,13 @@ class Blackbody {
 
   // Member function to create a vector of Exitance for a given vector of
   // wavelengths
-  const std::vector<double> SpectralRadiantExitance(
-      std::vector<double> wavelength_vector) const;
+  std::vector<double> SpectralRadiantExitance(
+      const std::vector<double>& wavelength_vector) const;
 
   // Member function to create a vector of Radiance for a given vector of
   // wavelengths
-  const std::vector<double> SpectralRadiance(
-      std::vector<double> wavelength_vector) const;
+  std::vector<double> SpectralRadiance(
+      const std::vector<double>& wavelength_vector) const;
 
  private:
   // Defining Private Variable Absolute Temperature
