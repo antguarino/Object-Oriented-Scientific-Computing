@@ -34,15 +34,10 @@ std::string KeyDecrypt(const std::string& key, const std::string& str) {
   // Adds the decrypted character for each index of the encrypted string
   for (size_t i = 0; i < str.size(); i++) {
     // If the calculation is negetive, make it a usable character
-    if ((str.at(i) - 32) - (key.at(i % key.size()) - 32) < 0) {
-      decrypted_str.push_back((str.at(i) - 32) - (key.at(i % key.size()) - 32) +
-                              (127 - 32) + 32);
-    }
-
-    else {
-      decrypted_str.push_back((str.at(i) - 32) - (key.at(i % key.size()) - 32) +
-                              32);
-    }
+    decrypted_str.push_back(
+        (str.at(i) - 32) - (key.at(i % key.size()) - 32) < 0
+            ? (str.at(i) - 32) - (key.at(i % key.size()) - 32) + (127 - 32) + 32
+            : (str.at(i) - 32) - (key.at(i % key.size()) - 32) + 32);
   }
   return decrypted_str;
 }
@@ -55,13 +50,9 @@ std::string KeyFinder(const std::string& encrypted_str,
 
   // Goes through the string and calculates the key value
   for (size_t i = 0; i < str.size(); i++) {
-    if (((encrypted_str.at(i) + 32) - (str.at(i) + 32)) < 0) {
-      key.push_back((encrypted_str.at(i) + 32) - (str.at(i) + 32) + 127);
-    }
-
-    else {
-      key.push_back((encrypted_str.at(i) + 32) - (str.at(i) + 32) + 32);
-    }
+    key.push_back(((encrypted_str.at(i) + 32) - (str.at(i) + 32)) < 0
+                      ? (encrypted_str.at(i) + 32) - (str.at(i) + 32) + 127
+                      : (encrypted_str.at(i) + 32) - (str.at(i) + 32) + 32);
 
     // Checks if the key has repeated and if it does, return the key
     if (key.substr(0, key.size() / 2) == key.substr(key.size() / 2)) {
