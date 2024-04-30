@@ -9,7 +9,6 @@
  */
 
 #include "Histogram.h"
-#include <vector>
 
 namespace ipcv {
 
